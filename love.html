@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(deeppink, blueviolet);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: "Sedgwick Ave", Arial, Helvetica, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    svg {
+      width: 50vw;
+    }
+
+    text {
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <svg viewbox="0 0 100 100">
+      <g id="heart-group-container">
+          
+        <g id="heart-group"
+        opacity="0">
+        <rect id="heart-box"
+          x="30"
+          y="30"
+          height="40"
+          width="40"
+          fill="none"
+          stroke-width="1"
+          stroke="lightgray" />
+        <circle id="heart-left"
+          cx="50"
+          cy="50"
+          r=20
+          stroke-width="1"
+          stroke="lightgray"
+          fill="none" />
+        <circle id="heart-right"
+          cx="50"
+          cy="50"
+          r=20
+          stroke-width="1"
+          stroke="lightgray"
+          fill="none" />
+          <svg id="heart-path-svg">
+            <g id="heart-path-group">
+              <path id="heart-path"
+                d="M30 70
+                70 70
+                A20, 20 0 1,0 70,30
+                A20, 20 0 1,0 30,30
+                L30 70"
+                fill="red"
+                fill-opacity="0"
+                stroke="red"
+                stroke-width="2px"
+                stroke-linecap="square"/>
+              <image id="kiss-face"
+                xlink:href="./kiss.png"
+                x="45"
+                y="35"
+                height="20"
+                width="20"
+                transform="rotate(45, 55, 45)"
+                opacity="0"/>
+            </g> 
+          </svg>
+        
+        </g>
+      </g>
+
+      <svg id="present">
+        <path id="present-box"
+          d="M30 25
+            70 25
+            Q75 25 75 30
+            L75 70
+            Q75 75 70 75
+            L30 75
+            Q25 75 25 70
+            L25 30
+            Q25 25 30 25"
+          stroke="#FFA500"
+          fill="#6928ff"
+          fill-opacity="0" />
+        <path id="across-ribbon"
+          d="M24 50 76 50"
+          stroke="#FFA500"
+          stroke-width="10px"
+          fill="none" />
+        <path id="up-ribbon"
+          d="M50 76 50 24"
+          stroke="#FFA500"
+          stroke-width="10"
+          fill="none" />
+        <path id="top-ribbon"
+          d="M50 25
+            Q50 20 40 15
+            Q45 25 50 25
+            L30 20
+            M50 25
+            Q50 20 60 15
+            Q55 25 50 25
+            L70 20"
+          stroke="#FFA500"
+          stroke-width="3"
+          fill="none" />
+      </svg>
+      <text id="text-hubba-1"
+        y="45"
+        x="10"
+        fill="red"
+        stroke="black"
+        stroke-width="0.5"
+        opacity="0"
+        pointer-events="none"
+        transform="rotate(-15)">
+        Hubba
+      </text>
+      <text id="text-hubba-2"
+        y="85"
+        x="25"
+        fill="red"
+        stroke="black"
+        stroke-width="0.5"
+        opacity="0"
+        pointer-events="none"
+        transform="rotate(-15)">
+        Hubba
+      </text>
+      <text id="text-from"
+        y="65"
+        x="18"
+        fill="#6928ff"
+        stroke="black"
+        stroke-width="0.5"
+        opacity="0"
+        pointer-events="none">
+        love Dominic
+      </text>
+      <text id="text-to"
+        y="45"
+        x="10"
+        fill="#FFA500"
+        stroke="black"
+        stroke-width="0.5"
+        opacity="0"
+        pointer-events="none">
+        to Megan
+      </text>
+    </svg>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.4/vivus.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.6/svg.js"></script>
+  <script>
+    const present = SVG.get('present')
+    const presentBox = SVG.get('present-box')
+    const toText = SVG.get('text-to')
+    const fromText = SVG.get('text-from')
+    const bow = SVG.get('top-ribbon')
+    const heartGroup = SVG.get('heart-group')
+    const heartGroupContainer = SVG.get('heart-group-container')
+    const heartPath = SVG.get('heart-path')
+    const heartPathGroup = SVG.get('heart-path-group')
+    const heartBox = SVG.get('heart-box')
+    const heartLeft = SVG.get('heart-left')
+    const heartRight = SVG.get('heart-right')
+    const kissFace = SVG.get('kiss-face')
+    const hubba1 = SVG.get('text-hubba-1')
+    const hubba2 = SVG.get('text-hubba-2')
+
+    const presentDraw = new Vivus('present', {
+      start: 'manual',
+      duration: 200,
+      type: 'oneByOne'
+    });
+
+    const heartDraw = new Vivus('heart-path-svg', {
+      start: 'manual',
+      duration: 200,
+      type: 'oneByOne'
+    });
+
+    const heartBeat = () => {
+      hubba1.animate(500).opacity(1).scale(1.1).animate(500).scale(1)
+      heartPath.animate(500).scale(1.1).animate(500).scale(1).after(() => {
+        setTimeout(() => {
+          heartBeat()
+        }, 1000)
+      })
+      setTimeout(() => {
+        kissFace.animate(500).scale(1.1).animate(500).scale(1)
+        hubba2.animate(500).opacity(1).scale(1.1).animate(500).scale(1)
+      },500)
+    }
+
+    const drawHeart = () => {
+      heartGroup.animate(3000).rotate(-45, 50, 50).after(() => {
+        heartGroupContainer.animate(2000).translate(0, 5)
+        heartLeft.animate(2000).translate(0, -20)
+        heartRight.animate(2000).translate(20, 0).after(() => {
+          heartDraw.play(1, () => {
+            kissFace.animate().attr({ opacity: 1 })
+            heartPath.animate().attr({ 'fill-opacity': '1' }).after(() => {
+              heartBeat()
+            })
+          })
+        })
+      })
+    }
+
+    const openPresent = () => {
+      toText.animate().attr({ opacity: 0 })
+      fromText.animate().attr({ opacity: 0 })
+      heartGroup.attr({ opacity: 1 })
+      bow.animate().translate(0, -10).opacity(0).after(() => {
+        presentDraw.play(-1, () => {
+          presentBox.animate(2000).attr({ 'fill-opacity': '0' }).after(() => {
+            drawHeart()
+          })
+        })
+      })
+
+    }
+
+    const textShow = () => {
+      toText.animate(1000).attr({ opacity: 1 }).after(() => {
+        fromText.animate(1000).attr({ opacity: 1 }).after(() => {
+          present.click(() => openPresent())
+        })
+      })
+    }
+
+    // START
+    presentDraw.play(1, () => {
+      presentBox.animate().attr({ 'fill-opacity': '1' }).after(() => textShow())
+    })
+
+  </script>
+</body>
+</html>
